@@ -1,4 +1,4 @@
-package com.keepcoding.androidsuperpoderes.ui.navigation.example
+package com.example.practica_android_superpoderes.ui.navigation
 
 import androidx.compose.runtime.Composable
 import androidx.navigation.NavBackStackEntry

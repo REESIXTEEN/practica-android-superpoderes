@@ -26,12 +26,12 @@ class RepositoryImpl @Inject constructor(
         return localToPresentationMapper.mapLocalSuperheros(localDataSource.getHeros())
     }
 
-    suspend fun getHero(id: String): Hero {
+    override suspend fun getHero(id: String): Hero {
         return localToPresentationMapper.mapLocalSuperheros(localDataSource.getHero(id)).first()
     }
 
 
-    suspend fun updateHero(hero: Hero) {
+    override suspend fun updateHero(hero: Hero) {
         val localHero = presentationToLocalMapper.mapPresentationHero(hero)
         localDataSource.updateHero(localHero)
         remoteDataSource.updateHeroFav(hero.id)

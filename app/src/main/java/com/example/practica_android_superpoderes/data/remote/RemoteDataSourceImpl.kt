@@ -11,7 +11,7 @@ import javax.inject.Singleton
 @Singleton
 class RemoteDataSourceImpl @Inject constructor(private val api: DragonBallApi, private val shared: SharedPreferences): RemoteDataSource {
 
-    private val token = "qwerty"
+    private val token = ""
 
     override suspend fun getHeros(): List<GetHerosResponse> {
         return api.getHeros("Bearer $token", GetHerosRequestBody())

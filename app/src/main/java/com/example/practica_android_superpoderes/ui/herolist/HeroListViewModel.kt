@@ -12,6 +12,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 @HiltViewModel
@@ -19,16 +20,24 @@ class HeroListViewModel @Inject constructor(
     private val repository: Repository,
     private val shared: SharedPreferences): ViewModel() {
 
-    var heroes: List<Hero> = listOf()
+    private val _heros = MutableStateFlow<List<Hero>>(emptyList())
+    val heros: StateFlow<List<Hero>> get() = _heros
 
     private val _mainStatus = MutableStateFlow<MainStatus>(MainStatus.Loading)
     val mainStatus: StateFlow<MainStatus> = _mainStatus
+
+    init {
+        getHeros()
+    }
 
     fun getHeros() {
         _mainStatus.value = MainStatus.Loading
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                heroes = repository.getHeros()
+                val result = withContext(Dispatchers.IO) {
+                    repository.getHeros()
+                }
+                _heros.update { result }
                 Log.i("TAG", "Heroes obtained from api")
                 _mainStatus.update { MainStatus.Success }
             }catch (e: Exception) {
