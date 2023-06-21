@@ -19,7 +19,7 @@ class DetailViewModel @Inject constructor(private val repository: Repository): V
 
     private val _detailStatus = MutableStateFlow<DetailStatus>(DetailStatus.Loading)
     val detailStatus: StateFlow<DetailStatus> = _detailStatus
-    lateinit var hero: Hero
+    var hero = Hero("","","","",false)
 
 
     fun getHero(id: String) {

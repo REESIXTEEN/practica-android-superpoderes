@@ -10,6 +10,8 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.collect
+import kotlinx.coroutines.flow.toList
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -34,10 +36,18 @@ class HeroListViewModel @Inject constructor(
         _mainStatus.value = MainStatus.Loading
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                val result = withContext(Dispatchers.IO) {
-                    repository.getHeros()
+
+//                val result = withContext(Dispatchers.IO) {
+//                    repository.getHeros()
+//                }
+//                _heros.update { result }
+
+
+                launch(Dispatchers.IO) {
+                    repository.getHeros().collect{ result ->
+                        _heros.update { result }
+                    }
                 }
-                _heros.update { result }
                 Log.i("TAG", "Heroes obtained from api")
                 _mainStatus.update { MainStatus.Success }
             }catch (e: Exception) {

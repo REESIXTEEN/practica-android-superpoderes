@@ -7,16 +7,17 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import com.example.practica_android_superpoderes.data.local.model.LocalHero
+import kotlinx.coroutines.flow.Flow
 
 
 @Dao
 interface SuperheroDAO {
 
     @Query("SELECT * FROM superheros")
-    suspend fun getAll(): List<LocalHero>
+    fun getAll(): Flow<List<LocalHero>>
 
     @Query("SELECT * FROM superheros WHERE id = :id")
-    suspend fun getHero(id: String): List<LocalHero>
+    suspend fun getHero(id: String): LocalHero
 
     @Update
     suspend fun updateHero(hero: LocalHero)

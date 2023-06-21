@@ -32,9 +32,7 @@ import com.example.practica_android_superpoderes.ui.theme.Practicaandroidsuperpo
 @Composable
 fun DetailScreen (viewModel: DetailViewModel, idHero: String) {
 
-    LaunchedEffect(Unit) {
-        viewModel.getHero(idHero)
-    }
+    viewModel.getHero(idHero)
 
     DetailContent(viewModel.hero)
 }
@@ -42,9 +40,9 @@ fun DetailScreen (viewModel: DetailViewModel, idHero: String) {
 @Composable
 fun DetailContent(hero: Hero) {
     Column(Modifier.padding(8.dp)) {
-        ImageHero(photo = "")
+        ImageHero(photo = hero.photo)
         Row(
-            Modifier.fillMaxWidth(),
+            Modifier.fillMaxWidth().padding(top = 8.dp),
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement  =  Arrangement.SpaceBetween
         ) {

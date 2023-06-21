@@ -6,6 +6,8 @@ import com.example.practica_android_superpoderes.data.mappers.PresentationToLoca
 import com.example.practica_android_superpoderes.data.mappers.RemoteToLocalMapper
 import com.example.practica_android_superpoderes.data.remote.RemoteDataSourceImpl
 import com.example.practica_android_superpoderes.ui.model.Hero
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.toList
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -18,8 +20,11 @@ class RepositoryImpl @Inject constructor(
     private val presentationToLocalMapper: PresentationToLocalMapper
 ): Repository{
 
-    override suspend fun getHeros(): List<Hero> {
-        if (localDataSource.getHeros().isEmpty()) {
+    override suspend fun getHeros(): Flow<List<Hero>> {
+//        println("aaaaaaaaaaaaaaaaaaaaa")
+//        val caca = localDataSource.getHeros().toList().first()
+//        println(caca)
+        if (true) {
             val remoteSuperheros = remoteDataSource.getHeros()
             localDataSource.insertHeros(remoteToLocalMapper.mapGetHeroResponse(remoteSuperheros))
         }
@@ -27,7 +32,7 @@ class RepositoryImpl @Inject constructor(
     }
 
     override suspend fun getHero(id: String): Hero {
-        return localToPresentationMapper.mapLocalSuperheros(localDataSource.getHero(id)).first()
+        return localToPresentationMapper.mapLocalSuperheros(localDataSource.getHero(id))
     }
 
 

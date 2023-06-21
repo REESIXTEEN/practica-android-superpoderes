@@ -1,11 +1,12 @@
 package com.example.practica_android_superpoderes.data.local
 
 import com.example.practica_android_superpoderes.data.local.model.LocalHero
+import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
 class LocalDataSourceImpl @Inject constructor(private val dao: SuperheroDAO): LocalDataSource {
 
-    override suspend fun getHeros(): List<LocalHero>{
+    override suspend fun getHeros(): Flow<List<LocalHero>> {
         return dao.getAll()
     }
 
@@ -13,7 +14,7 @@ class LocalDataSourceImpl @Inject constructor(private val dao: SuperheroDAO): Lo
         TODO("Not yet implemented")
     }
 
-    override suspend fun getHero(id: String): List<LocalHero>{
+    override suspend fun getHero(id: String): LocalHero {
         return dao.getHero(id)
     }
 
