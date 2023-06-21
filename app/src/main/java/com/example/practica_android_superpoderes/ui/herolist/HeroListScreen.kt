@@ -8,12 +8,14 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material.BottomAppBar
 import androidx.compose.material.Scaffold
 import androidx.compose.material.icons.Icons
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.filled.Favorite
+import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
 import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.rememberScaffoldState
@@ -78,7 +80,8 @@ fun HeroItem(hero: Hero, modifier: Modifier = Modifier, onHeroClick: (Hero) -> U
     Card(
         modifier = modifier
             .fillMaxWidth()
-            .height(250.dp).clickable { onHeroClick(hero) }
+            .height(250.dp)
+            .clickable { onHeroClick(hero) }
     ) {
         AsyncImage(
             model = hero.photo,
@@ -89,8 +92,33 @@ fun HeroItem(hero: Hero, modifier: Modifier = Modifier, onHeroClick: (Hero) -> U
             placeholder = painterResource(id = R.drawable.baseline_person),
             contentScale = ContentScale.Crop
         )
-        Text(text = hero.name, style = MaterialTheme.typography.headlineLarge, modifier = Modifier.padding(8.dp))
+        Row(
+            Modifier.fillMaxWidth().padding(top = 8.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement  =  Arrangement.SpaceBetween
+        ) {
+            Text(text = hero.name, style = MaterialTheme.typography.headlineLarge, modifier = Modifier.padding(8.dp))
+            HeroFav(isFav = hero.favorite)
+        }
+
     }
+}
+
+@Composable
+fun HeroFav(isFav: Boolean) {
+
+    val imageVector = if (isFav) {
+        Icons.Default.Favorite
+    } else {
+        Icons.Default.FavoriteBorder
+    }
+
+    Icon(
+        imageVector = imageVector,
+        contentDescription = "Icono de corazón",
+        tint = Color.Red,
+        modifier = Modifier.size(44.dp).padding(end = 8.dp)
+    )
 }
 
 @OptIn(ExperimentalMaterial3Api::class)

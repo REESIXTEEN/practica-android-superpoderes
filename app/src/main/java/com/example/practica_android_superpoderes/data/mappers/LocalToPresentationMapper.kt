@@ -10,11 +10,18 @@ class LocalToPresentationMapper @Inject constructor() {
 
     fun mapLocalSuperheros(localSuperheros: Flow<List<LocalHero>>): Flow<List<Hero>> {
         return localSuperheros.map { localHeroList ->
-            localHeroList.map {mapLocalSuperheros(it)}
+            localHeroList.map {mapLocalSuperhero(it)}
         }
     }
 
-    fun mapLocalSuperheros(getHerosResponse: LocalHero): Hero {
+    fun mapLocalSuperhero(localSuperhero: Flow<LocalHero>): Flow<Hero> {
+        return localSuperhero.map { localHero ->
+            mapLocalSuperhero(localHero)
+        }
+    }
+
+    fun mapLocalSuperhero(getHerosResponse: LocalHero): Hero {
         return Hero(getHerosResponse.id, getHerosResponse.name, getHerosResponse.description, getHerosResponse.photo, getHerosResponse.favorite)
     }
+
 }

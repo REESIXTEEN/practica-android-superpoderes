@@ -21,18 +21,15 @@ class RepositoryImpl @Inject constructor(
 ): Repository{
 
     override suspend fun getHeros(): Flow<List<Hero>> {
-//        println("aaaaaaaaaaaaaaaaaaaaa")
-//        val caca = localDataSource.getHeros().toList().first()
-//        println(caca)
-        if (true) {
+        if (localDataSource.getCount() == 0) {
             val remoteSuperheros = remoteDataSource.getHeros()
             localDataSource.insertHeros(remoteToLocalMapper.mapGetHeroResponse(remoteSuperheros))
         }
         return localToPresentationMapper.mapLocalSuperheros(localDataSource.getHeros())
     }
 
-    override suspend fun getHero(id: String): Hero {
-        return localToPresentationMapper.mapLocalSuperheros(localDataSource.getHero(id))
+    override suspend fun getHero(id: String): Flow<Hero> {
+        return localToPresentationMapper.mapLocalSuperhero(localDataSource.getHero(id))
     }
 
 

@@ -6,7 +6,7 @@ import kotlinx.coroutines.flow.Flow
 interface Repository {
     suspend fun getHeros(): Flow<List<Hero>>
 
-    suspend fun getHero(id: String): Hero
+    suspend fun getHero(id: String): Flow<Hero>
 
     suspend fun updateHero(hero: Hero)
 

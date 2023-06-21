@@ -17,7 +17,10 @@ interface SuperheroDAO {
     fun getAll(): Flow<List<LocalHero>>
 
     @Query("SELECT * FROM superheros WHERE id = :id")
-    suspend fun getHero(id: String): LocalHero
+    fun getHero(id: String): Flow<LocalHero>
+
+    @Query("SELECT COUNT(*) FROM superheros")
+    suspend fun getCount(): Int
 
     @Update
     suspend fun updateHero(hero: LocalHero)

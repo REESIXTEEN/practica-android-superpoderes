@@ -1,5 +1,7 @@
 package com.example.practica_android_superpoderes.ui.detail
 
+import androidx.activity.viewModels
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -14,6 +16,8 @@ import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -33,12 +37,13 @@ import com.example.practica_android_superpoderes.ui.theme.Practicaandroidsuperpo
 fun DetailScreen (viewModel: DetailViewModel, idHero: String) {
 
     viewModel.getHero(idHero)
+    val hero by viewModel.hero.collectAsState()
 
-    DetailContent(viewModel.hero)
+    DetailContent(hero){viewModel.updateFav()}
 }
 
 @Composable
-fun DetailContent(hero: Hero) {
+fun DetailContent(hero: Hero, updateFav: () -> Unit) {
     Column(Modifier.padding(8.dp)) {
         ImageHero(photo = hero.photo)
         Row(
@@ -47,7 +52,7 @@ fun DetailContent(hero: Hero) {
             horizontalArrangement  =  Arrangement.SpaceBetween
         ) {
             HeroName(name = hero.name)
-            HeroFav(hero.favorite)
+            HeroFav(hero.favorite,updateFav)
         }
         HeroDescription(description = hero.description)
     }
@@ -78,7 +83,7 @@ fun HeroName(name: String) {
 }
 
 @Composable
-fun HeroFav(isFav: Boolean) {
+fun HeroFav(isFav: Boolean, updateFav: () -> Unit) {
 
     val imageVector = if (isFav) {
         Icons.Default.Favorite
@@ -90,7 +95,9 @@ fun HeroFav(isFav: Boolean) {
         imageVector = imageVector,
         contentDescription = "Icono de corazón",
         tint = Color.Red,
-        modifier = Modifier.size(44.dp)
+        modifier = Modifier.size(44.dp).clickable {
+            updateFav()
+        }
     )
 }
 
@@ -108,6 +115,6 @@ fun HeroDescription(description: String) {
 fun DetailPreview() {
     PracticaandroidsuperpoderesTheme {
         val hero = Hero("1", "IronMan", "Description","",false)
-        DetailContent(hero)
+        DetailContent(hero){}
     }
 }

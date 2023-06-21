@@ -10,11 +10,15 @@ class LocalDataSourceImpl @Inject constructor(private val dao: SuperheroDAO): Lo
         return dao.getAll()
     }
 
+    override suspend fun getCount(): Int {
+        return dao.getCount()
+    }
+
     override suspend fun insertHero(localSuperhero: LocalHero) {
         TODO("Not yet implemented")
     }
 
-    override suspend fun getHero(id: String): LocalHero {
+    override suspend fun getHero(id: String): Flow<LocalHero> {
         return dao.getHero(id)
     }
 

@@ -9,6 +9,7 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -19,16 +20,24 @@ class DetailViewModel @Inject constructor(private val repository: Repository): V
 
     private val _detailStatus = MutableStateFlow<DetailStatus>(DetailStatus.Loading)
     val detailStatus: StateFlow<DetailStatus> = _detailStatus
-    var hero = Hero("","","","",false)
+//    var hero = Hero("","","","",false)
+
+    private val _hero = MutableStateFlow<Hero>(Hero("","","","",false))
+    val hero: StateFlow<Hero> get() = _hero
 
 
     fun getHero(id: String) {
         _detailStatus.value = DetailStatus.Loading
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                hero = repository.getHero(id)
+//                hero = repository.getHero(id)
+                launch(Dispatchers.IO) {
+                    repository.getHero(id).collect{ result ->
+                        _hero.update { result }
+                    }
+                }
                 Log.i("TAG", "Hero obtained from room")
-                _detailStatus.update { DetailStatus.Success(hero) }
+                _detailStatus.update { DetailStatus.Success }
             }catch (e: Exception) {
                 _detailStatus.value = DetailStatus.Error("Something went wrong. $e")
             }
@@ -38,7 +47,9 @@ class DetailViewModel @Inject constructor(private val repository: Repository): V
     fun updateFav() {
         viewModelScope.launch(Dispatchers.IO) {
             try {
-                repository.updateHero(hero)
+                val newHero = hero.first()
+                newHero.favorite = !newHero.favorite
+                repository.updateHero(newHero)
                 Log.i("TAG", "Hero updated")
             }catch (e: Exception) {
                 _detailStatus.value = DetailStatus.Error("Error updating fav in server. $e")
@@ -50,7 +61,7 @@ class DetailViewModel @Inject constructor(private val repository: Repository): V
     sealed class DetailStatus {
         object Loading : DetailStatus()
         data class Error(val error: String) : DetailStatus()
-        data class Success(val hero: Hero) : DetailStatus()
+        object Success : DetailStatus()
     }
 }
 
