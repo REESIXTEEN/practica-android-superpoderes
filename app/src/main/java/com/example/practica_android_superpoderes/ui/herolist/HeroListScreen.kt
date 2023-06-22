@@ -17,6 +17,7 @@ import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
+import androidx.compose.material3.Divider
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -51,6 +52,20 @@ fun HeroListContent(heros: List<Hero> , onHeroListClicked: (Hero) -> Unit) {
 
     Scaffold(
         modifier = Modifier.fillMaxSize(),
+
+/*Como componente que no hemos visto en clase he añadido el drawercontent, el cual proporciona
+un panel lateral que se muestra aarrastrando (en este caso de izqquierda a derecha). En este panel se muestran
+los nombres de todos los personajes que se han obtenido de la api de marvel
+*/
+
+        drawerContent = {
+            Text("Indice Heroes", modifier = Modifier.padding(16.dp))
+            Divider()
+            heros.forEach{
+                Text(text = it.name,
+                modifier = Modifier.padding(8.dp))
+            }
+        },
         topBar = {
             MyTopBar()
         },
@@ -102,7 +117,9 @@ fun Titulo(hero: Hero) {
         Text(text = hero.name,
             style = MaterialTheme.typography.headlineLarge,
             maxLines = 1,
-            modifier = Modifier.padding(8.dp).weight(1f))
+            modifier = Modifier
+                .padding(8.dp)
+                .weight(1f))
         HeroFav(isFav = hero.favorite)
     }
 }
