@@ -3,6 +3,7 @@ package com.example.practica_android_superpoderes.data.remote
 import android.content.SharedPreferences
 import com.example.practica_android_superpoderes.data.remote.api.MarvelApi
 import com.example.practica_android_superpoderes.data.remote.response.DataBaseResponse
+import com.example.practica_android_superpoderes.data.remote.response.DataBaseComicResponse
 import com.example.practica_android_superpoderes.data.remote.response.MarvelBaseResponse
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -15,6 +16,10 @@ class RemoteDataSourceImpl @Inject constructor(private val api: MarvelApi, priva
 
     override suspend fun getHeros(): MarvelBaseResponse<DataBaseResponse> {
         return api.getHeros(APIKEY,HASH,1,10)
+    }
+
+    override suspend fun getHeroComics(id: String): MarvelBaseResponse<DataBaseComicResponse> {
+        return api.getHeroComics(id,APIKEY,HASH,1,10)
     }
 
 //    override suspend fun updateHeroFav(heroId: String) {

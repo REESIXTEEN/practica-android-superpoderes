@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.practica_android_superpoderes.data.Repository
+import com.example.practica_android_superpoderes.ui.model.Comic
 import com.example.practica_android_superpoderes.ui.model.Hero
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -24,12 +25,14 @@ class DetailViewModel @Inject constructor(private val repository: Repository): V
     private val _hero = MutableStateFlow<Hero>(Hero(0,"","","",false))
     val hero: StateFlow<Hero> get() = _hero
 
+    private val _comics = MutableStateFlow<List<Comic>>(emptyList())
+    val comics: StateFlow<List<Comic>> get() = _comics
+
 
     fun getHero(id: String) {
         _detailStatus.value = DetailStatus.Loading
         viewModelScope.launch(Dispatchers.IO) {
             try {
-//                hero = repository.getHero(id)
                 launch(Dispatchers.IO) {
                     repository.getHero(id).collect{ result ->
                         _hero.update { result }
@@ -37,6 +40,18 @@ class DetailViewModel @Inject constructor(private val repository: Repository): V
                 }
                 Log.i("TAG", "Hero obtained from room")
                 _detailStatus.update { DetailStatus.Success }
+            }catch (e: Exception) {
+                _detailStatus.value = DetailStatus.Error("Something went wrong. $e")
+            }
+        }
+    }
+
+    fun getHeroComics(id: String) {
+        viewModelScope.launch(Dispatchers.IO) {
+            try {
+                val comics = repository.getComics(id)
+                _comics.update { comics }
+                Log.i("TAG", "Hero obtained from room")
             }catch (e: Exception) {
                 _detailStatus.value = DetailStatus.Error("Something went wrong. $e")
             }
