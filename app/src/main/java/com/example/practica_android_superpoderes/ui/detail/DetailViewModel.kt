@@ -25,7 +25,7 @@ class DetailViewModel @Inject constructor(private val repository: Repository): V
     private val _hero = MutableStateFlow<Hero>(Hero(0,"","","",false))
     val hero: StateFlow<Hero> get() = _hero
 
-    private val _comics = MutableStateFlow<List<Comic>>(emptyList())
+    private val _comics = MutableStateFlow<List<Comic>>(listOf(Comic(1,"",""), Comic(2,"","")))
     val comics: StateFlow<List<Comic>> get() = _comics
 
 

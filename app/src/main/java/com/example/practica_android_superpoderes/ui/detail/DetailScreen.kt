@@ -24,6 +24,8 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.rememberScrollState
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -53,7 +55,7 @@ fun DetailScreen (viewModel: DetailViewModel, idHero: String) {
 @Composable
 fun DetailContent(hero: Hero,comics: List<Comic>, updateFav: () -> Unit) {
 
-    Column(Modifier.padding(8.dp)) {
+    Column(modifier = Modifier.padding(8.dp).verticalScroll(rememberScrollState())) {
         ImageHero(photo = hero.photo)
         Row(
             Modifier
@@ -90,7 +92,7 @@ fun HeroComics(comics: List<Comic>) {
 fun ComicItem(comic: Comic, modifier: Modifier = Modifier) {
     Card(
         modifier = modifier
-            .fillMaxHeight()
+            .height(300.dp)
             .width(200.dp)
     ) {
         AsyncImage(
