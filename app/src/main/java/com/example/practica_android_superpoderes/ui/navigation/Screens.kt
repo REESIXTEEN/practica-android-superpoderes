@@ -8,7 +8,7 @@ sealed class Screens(val route: String) {
     object DetailListScreen: Screens(SCREEN3_ROUTE_TEMPLATE){
         const val ARG_IDHERO = "idHero"
 
-        fun createRouteWithArgs(idHero: String): String {
+        fun createRouteWithArgs(idHero: Int): String {
             return SCREEN2_ROUTE_TO_FORMAT.format(idHero)
         }
 

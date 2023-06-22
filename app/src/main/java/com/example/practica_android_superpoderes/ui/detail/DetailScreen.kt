@@ -1,6 +1,6 @@
 package com.example.practica_android_superpoderes.ui.detail
 
-import androidx.activity.viewModels
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -9,13 +9,13 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -51,8 +51,13 @@ fun DetailContent(hero: Hero, updateFav: () -> Unit) {
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement  =  Arrangement.SpaceBetween
         ) {
-            HeroName(name = hero.name)
-            HeroFav(hero.favorite,updateFav)
+            Column(Modifier.weight(1f)){
+                HeroName(name = hero.name)
+            }
+            Column(Modifier){
+                HeroFav(hero.favorite,updateFav)
+            }
+
         }
         HeroDescription(description = hero.description)
     }
@@ -78,7 +83,9 @@ fun HeroName(name: String) {
         style = TextStyle(
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold
-        )
+        ),
+        maxLines = 2,
+        modifier = Modifier.padding(8.dp)
     )
 }
 
@@ -114,7 +121,7 @@ fun HeroDescription(description: String) {
 @Composable
 fun DetailPreview() {
     PracticaandroidsuperpoderesTheme {
-        val hero = Hero("1", "IronMan", "Description","",false)
+        val hero = Hero(0, "IronwgrbgabeabgeabadfbaedfnbadbaMan", "Description","",false)
         DetailContent(hero){}
     }
 }

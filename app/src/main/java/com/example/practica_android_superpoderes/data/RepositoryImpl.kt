@@ -36,7 +36,6 @@ class RepositoryImpl @Inject constructor(
     override suspend fun updateHero(hero: Hero) {
         val localHero = presentationToLocalMapper.mapPresentationHero(hero)
         localDataSource.updateHero(localHero)
-        remoteDataSource.updateHeroFav(hero.id)
     }
 
 

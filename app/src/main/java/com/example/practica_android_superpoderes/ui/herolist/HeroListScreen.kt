@@ -17,7 +17,6 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
 import androidx.compose.material.icons.filled.Home
-import androidx.compose.material.icons.filled.Settings
 import androidx.compose.material.rememberScaffoldState
 import androidx.compose.material3.Card
 import androidx.compose.material3.CenterAlignedTopAppBar
@@ -92,15 +91,26 @@ fun HeroItem(hero: Hero, modifier: Modifier = Modifier, onHeroClick: (Hero) -> U
             placeholder = painterResource(id = R.drawable.baseline_person),
             contentScale = ContentScale.Crop
         )
-        Row(
-            Modifier.fillMaxWidth().padding(top = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement  =  Arrangement.SpaceBetween
-        ) {
-            Text(text = hero.name, style = MaterialTheme.typography.headlineLarge, modifier = Modifier.padding(8.dp))
-            HeroFav(isFav = hero.favorite)
-        }
+        Titulo(hero = hero)
 
+
+    }
+}
+
+@Composable
+fun Titulo(hero: Hero) {
+    Row(
+        Modifier
+            .fillMaxWidth()
+            .padding(top = 8.dp),
+        verticalAlignment = Alignment.CenterVertically,
+        horizontalArrangement  =  Arrangement.SpaceBetween
+    ) {
+        Text(text = hero.name,
+            style = MaterialTheme.typography.headlineLarge,
+            maxLines = 1,
+            modifier = Modifier.padding(8.dp).weight(1f))
+        HeroFav(isFav = hero.favorite)
     }
 }
 
@@ -117,7 +127,9 @@ fun HeroFav(isFav: Boolean) {
         imageVector = imageVector,
         contentDescription = "Icono de corazón",
         tint = Color.Red,
-        modifier = Modifier.size(44.dp).padding(end = 8.dp)
+        modifier = Modifier
+            .size(44.dp)
+            .padding(end = 8.dp)
     )
 }
 
@@ -152,8 +164,8 @@ fun MyBottomBar() {
 fun HeroListPreview() {
     PracticaandroidsuperpoderesTheme {
         val heros = listOf<Hero>(
-            Hero("1","IronMan","Description","",true),
-            Hero("2","SpiderMan","Description","",false)
+            Hero(0,"IronMan","Description","",true),
+            Hero(1,"Hero con el nombre muy largooo","Description","",false)
         )
         HeroListContent(heros) { }
     }

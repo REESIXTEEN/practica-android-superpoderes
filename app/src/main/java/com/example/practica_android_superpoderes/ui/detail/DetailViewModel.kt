@@ -20,9 +20,8 @@ class DetailViewModel @Inject constructor(private val repository: Repository): V
 
     private val _detailStatus = MutableStateFlow<DetailStatus>(DetailStatus.Loading)
     val detailStatus: StateFlow<DetailStatus> = _detailStatus
-//    var hero = Hero("","","","",false)
 
-    private val _hero = MutableStateFlow<Hero>(Hero("","","","",false))
+    private val _hero = MutableStateFlow<Hero>(Hero(0,"","","",false))
     val hero: StateFlow<Hero> get() = _hero
 
 

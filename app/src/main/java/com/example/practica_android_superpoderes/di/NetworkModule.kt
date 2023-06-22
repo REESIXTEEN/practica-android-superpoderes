@@ -1,6 +1,6 @@
 package com.example.practica_android_superpoderes.di
 
-import com.example.practica_android_superpoderes.data.remote.api.DragonBallApi
+import com.example.practica_android_superpoderes.data.remote.api.MarvelApi
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Module
@@ -34,14 +34,14 @@ object NetworkModule {
     @Provides
     fun providesRetrofit(okHttpClient: OkHttpClient, moshi: Moshi): Retrofit {
         return Retrofit.Builder()
-            .baseUrl("https://dragonball.keepcoding.education/")
+            .baseUrl("https://gateway.marvel.com/v1/public/")
             .client(okHttpClient)
             .addConverterFactory(MoshiConverterFactory.create(moshi).asLenient())
             .build()
     }
 
     @Provides
-    fun providesApi(retrofit: Retrofit): DragonBallApi {
-        return retrofit.create(DragonBallApi::class.java)
+    fun providesApi(retrofit: Retrofit): MarvelApi {
+        return retrofit.create(MarvelApi::class.java)
     }
 }
